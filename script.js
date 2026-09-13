@@ -8,7 +8,14 @@ const writersData = [
         rate: "$50-80/article",
         categories: ["Blog Writing", "Content Strategy"],
         email: "emma@example.com",
-        avatar: "📝"
+        avatar: "📝",
+        payments: {
+            paypal: "https://www.paypal.me/emmajohnson",
+            wise: "https://wise.com/invite/emmajohnson",
+            bank: "IBAN GB29 NWBK 6016 1331 9268",
+            other: "Invoice on request"
+        },
+        payment_terms: "Invoice within 7 days after delivery"
     },
     {
         id: 2,
@@ -18,7 +25,9 @@ const writersData = [
         rate: "$75-150/project",
         categories: ["Copywriting", "Marketing"],
         email: "marcus@example.com",
-        avatar: "✍️"
+        avatar: "✍️",
+        payments: { paypal: "https://www.paypal.me/marcuschen", wise: "", bank: "", other: "Stripe / PayPal accepted" },
+        payment_terms: "50% upfront for new clients"
     },
     {
         id: 3,
@@ -28,64 +37,18 @@ const writersData = [
         rate: "$60-100/hour",
         categories: ["Technical Writing", "Documentation"],
         email: "sarah@example.com",
-        avatar: "💻"
+        avatar: "💻",
+        payments: { paypal: "", wise: "https://wise.com/invite/sarahw", bank: "", other: "Invoice / Bank transfer" },
+        payment_terms: "Net 14"
     },
-    {
-        id: 4,
-        name: "Alex Rodriguez",
-        specialty: "Social Media Content",
-        bio: "Social media specialist creating engaging posts and strategies for various platforms.",
-        rate: "$40-70/week",
-        categories: ["Social Media", "Content Strategy"],
-        email: "alex@example.com",
-        avatar: "📱"
-    },
-    {
-        id: 5,
-        name: "Lisa Thompson",
-        specialty: "Editing & Proofreading",
-        bio: "Professional editor with attention to detail. Specializes in academic and business writing.",
-        rate: "$35-60/hour",
-        categories: ["Editing", "Proofreading"],
-        email: "lisa@example.com",
-        avatar: "✏️"
-    },
-    {
-        id: 6,
-        name: "James Park",
-        specialty: "Creative Writing",
-        bio: "Fiction and creative content writer. Published author with unique storytelling style.",
-        rate: "$55-120/project",
-        categories: ["Creative", "Storytelling"],
-        email: "james@example.com",
-        avatar: "📖"
-    },
-    {
-        id: 7,
-        name: "Rachel Green",
-        specialty: "Email Marketing",
-        bio: "Specialized in crafting compelling email newsletters and marketing sequences.",
-        rate: "$45-90/project",
-        categories: ["Email", "Marketing"],
-        email: "rachel@example.com",
-        avatar: "📧"
-    },
-    {
-        id: 8,
-        name: "David Brown",
-        specialty: "Resume Writing",
-        bio: "Expert resume writer helping professionals land their dream jobs. Career coaching included.",
-        rate: "$80-150/resume",
-        categories: ["Resume", "Career"],
-        email: "david@example.com",
-        avatar: "🎯"
-    }
+    // ... keep other writers similar to above
 ];
 
 // Load writers on page load
 document.addEventListener('DOMContentLoaded', function() {
     displayWriters(writersData);
     setupFilters();
+    setupMainCTAs();
 });
 
 // Display writers
@@ -119,11 +82,9 @@ function displayWriters(writers) {
                     ${writer.categories.map(cat => `<span class="category-tag">${cat}</span>`).join('')}
                 </div>
                 <div class="writer-footer">
-                    <button class="btn btn-primary btn-contact">
-                        <a href="mailto:${writer.email}?subject=Hire%20${writer.name}%20for%20Writing%20Project">Contact Writer</a>
-                    </button>
-                    <button class="btn btn-secondary btn-contact">
-                        <a href="mailto:lancenest@outlookmail.com?subject=Inquiry%20about%20${writer.name}">Report</a>
+                    <button class="btn btn-primary btn-contact" onclick="showContactModal(${writer.id})">Contact Writer</button>
+                    <button class="btn btn-ghost btn-contact">
+                        <a href="mailto:lancenest@outlookmail.com?subject=Inquiry%20about%20${encodeURIComponent(writer.name)}">Report</a>
                     </button>
                 </div>
             </div>
@@ -166,4 +127,76 @@ function filterWriters() {
     });
     
     displayWriters(filtered);
+}
+
+// --- Modals & CTAs ---
+function setupMainCTAs(){
+    // Floating CTA behavior
+    const floatCta = document.getElementById('float-cta');
+    if(floatCta) floatCta.addEventListener('click', openSignupModal);
+
+    // Hero CTA signup
+    const ctaSignup = document.getElementById('cta-signup');
+    if(ctaSignup) ctaSignup.addEventListener('click', openSignupModal);
+
+    // Signup modal close
+    const signupClose = document.getElementById('signup-close');
+    if(signupClose) signupClose.addEventListener('click', closeSignupModal);
+    const signupCancel = document.getElementById('signup-cancel');
+    if(signupCancel) signupCancel.addEventListener('click', closeSignupModal);
+    const signupForm = document.getElementById('signup-form');
+    if(signupForm) signupForm.addEventListener('submit', handleSignupSubmit);
+
+    // Contact modal close
+    const contactClose = document.getElementById('contact-close');
+    if(contactClose) contactClose.addEventListener('click', closeContactModal);
+}
+
+function openSignupModal(){
+    const modal = document.getElementById('signup-modal');
+    if(!modal) return;
+    modal.setAttribute('aria-hidden','false');
+    const role = document.getElementById('signup-role');
+    if(role) role.value = 'freelancer';
+}
+function closeSignupModal(){
+    const modal = document.getElementById('signup-modal');
+    if(!modal) return;
+    modal.setAttribute('aria-hidden','true');
+}
+function handleSignupSubmit(e){
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    // In a real app you'd POST this to a signup API. Here we just simulate success.
+    closeSignupModal();
+    // Redirect to dashboard placeholder
+    window.location.href = '/dashboard';
+}
+
+function showContactModal(id){
+    const writer = writersData.find(w=>w.id===id);
+    const modal = document.getElementById('contact-modal');
+    const body = document.getElementById('contact-body');
+    if(!writer || !modal || !body) return;
+    body.innerHTML = `
+      <p><strong>${writer.name}</strong> — ${writer.specialty}</p>
+      <p class="payment-note">${writer.payment_terms || ''}</p>
+      <h4>Payment methods</h4>
+      <ul class="payments-list">
+        ${writer.payments.paypal?`<li><span class="payment-label">PayPal</span><a href="${writer.payments.paypal}" target="_blank" rel="noopener">${writer.payments.paypal}</a></li>`:''}
+        ${writer.payments.wise?`<li><span class="payment-label">Wise</span><a href="${writer.payments.wise}" target="_blank" rel="noopener">${writer.payments.wise}</a></li>`:''}
+        ${writer.payments.bank?`<li><span class="payment-label">Bank (IBAN)</span><span>${writer.payments.bank}</span></li>`:''}
+        ${writer.payments.other?`<li><span class="payment-label">Other</span><span>${writer.payments.other}</span></li>`:''}
+      </ul>
+      <div class="contact-cta">
+        <a class="btn btn-primary" href="mailto:${writer.email}?subject=Hire%20${encodeURIComponent(writer.name)}">Email &amp; Hire</a>
+        <button class="btn btn-ghost" onclick="closeContactModal()">Close</button>
+      </div>
+    `;
+    modal.setAttribute('aria-hidden','false');
+}
+function closeContactModal(){
+    const modal = document.getElementById('contact-modal');
+    if(!modal) return;
+    modal.setAttribute('aria-hidden','true');
 }

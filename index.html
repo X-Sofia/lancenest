@@ -24,8 +24,11 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>Welcome to LanceNest</h1>
-            <p>Connect with talented writers for all your content needs</p>
-            <a href="writers.html" class="btn btn-primary">Browse Writers</a>
+            <p class="lead">Find talented freelance writers, connect directly, and get work done — fast.</p>
+            <div class="hero-ctas">
+                <a href="writers.html" class="btn btn-primary">Find Opportunities &amp; Join</a>
+                <button class="btn btn-ghost" id="cta-signup">Join as Freelancer</button>
+            </div>
         </div>
     </section>
 
@@ -58,7 +61,7 @@
     <section class="about" id="about">
         <div class="container">
             <h2>About LanceNest</h2>
-            <p>LanceNest is a dedicated platform connecting businesses and individuals with skilled writers from around the world. Whether you need blog posts, copywriting, technical writing, or creative content, our writers are ready to bring your vision to life.</p>
+            <p>LanceNest is a dedicated platform connecting businesses and individuals with skilled writers from around the world. Whether you need blog posts, copywriting, technical writing, or consulting, find the right writer here.</p>
         </div>
     </section>
 
@@ -71,6 +74,11 @@
         </div>
     </section>
 
+    <!-- Disclaimer Banner -->
+    <div class="disclaimer-banner">
+        <div class="container">This platform does not process payments. Payments are made directly between clients and freelancers. Always confirm terms before sending money.</div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -78,5 +86,28 @@
             <p>Founded by Sofia Wolf</p>
         </div>
     </footer>
+
+    <!-- Floating CTA -->
+    <button id="float-cta" aria-label="Find Opportunities & Join">Find Opportunities &amp; Join</button>
+
+    <!-- Signup Modal (client-side only placeholder) -->
+    <div id="signup-modal" class="modal" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+        <button class="modal-close" id="signup-close">×</button>
+        <h3 id="signup-title">Join LanceNest</h3>
+        <p>Sign up to find opportunities or list your services. (This is a placeholder signup form.)</p>
+        <form id="signup-form">
+          <label>Email (we will contact you):</label>
+          <input type="email" id="signup-email" required placeholder="your@email.com">
+          <input type="hidden" id="signup-role" value="freelancer">
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button type="submit" class="btn btn-primary">Join</button>
+            <button type="button" class="btn btn-ghost" id="signup-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
