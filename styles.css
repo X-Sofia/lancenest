@@ -679,7 +679,6 @@ label {
   .contact-wrap,
   .footer-inner,
   .search-box {
-    grid-template-columns: 1fr;
     display: block;
   }
 
