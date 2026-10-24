@@ -4,80 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Writers - LanceNest</title>
-
-    <meta name="description" content="Browse vetted freelance writers on LanceNest. Find profiles, rates, and direct contact methods to hire the right writer for your project.">
+    <meta name="description" content="Browse freelance writers on LanceNest. Find profiles, rates, and direct contact methods to hire the right writer for your project.">
     <link rel="canonical" href="https://x-sofia.github.io/lancenest/writers.html">
-
     <meta property="og:title" content="LanceNest — Browse Writers">
     <meta property="og:description" content="Browse vetted freelance writers and contact them directly to hire for your projects.">
     <meta property="og:url" content="https://x-sofia.github.io/lancenest/writers.html">
     <meta property="og:type" content="website">
-
     <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Google Search Console verification: replace the content value with the code from Search Console -->
     <meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_VERIFICATION_CODE">
-
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
-            <div class="logo">LanceNest</div>
+        <div class="container nav-wrap">
+            <div class="logo" aria-label="LanceNest home">LanceNest</div>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="writers.html">Browse Writers</a></li>
+                <li><a href="index.html#how-it-works">How it Works</a></li>
                 <li><a href="index.html#about">About</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Search Section -->
-    <section class="search-section">
-        <div class="container">
-            <h1>Find Your Perfect Writer</h1>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search by name, specialty, or skill..." class="search-input">
-                <select id="categoryFilter" class="category-filter">
-                    <option value="">All Categories</option>
-                    <option value="Blog Writing">Blog Writing</option>
-                    <option value="Copywriting">Copywriting</option>
-                    <option value="Technical Writing">Technical Writing</option>
-                    <option value="Social Media">Social Media Content</option>
-                    <option value="Editing">Editing & Proofreading</option>
-                    <option value="Creative">Creative Writing</option>
-                    <option value="Email">Email & Newsletters</option>
-                    <option value="Resume">Resume Writing</option>
-                </select>
+    <main>
+        <section class="search-section">
+            <div class="container narrow-container">
+                <span class="eyebrow">Find the right fit</span>
+                <h1>Search talented writers by specialty.</h1>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by name, specialty, or skill..." class="search-input" aria-label="Search writers">
+                    <select id="categoryFilter" class="category-filter" aria-label="Filter writers by category">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Writers Grid -->
-    <section class="writers-section">
-        <div class="container">
-            <div class="writers-grid" id="writersGrid">
-                <!-- Writers will be loaded here by JavaScript -->
+        <section class="writers-section">
+            <div class="container">
+                <div class="writers-grid" id="writersGrid" aria-live="polite"></div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Contact Modal -->
     <div id="contact-modal" class="modal" aria-hidden="true">
-      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contact-title">
-        <button class="modal-close" id="contact-close">×</button>
-        <h3 id="contact-title">Contact Writer</h3>
-        <div id="contact-body">
-          <!-- Filled by JS -->
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+            <button class="modal-close" id="contact-close" type="button" aria-label="Close contact modal">×</button>
+            <h3 id="contact-title">Contact Writer</h3>
+            <div id="contact-body"></div>
         </div>
-      </div>
     </div>
 
-    <!-- Footer -->
+    <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
     <footer class="footer">
-        <div class="container">
+        <div class="container footer-inner">
             <p>&copy; 2026 LanceNest. All rights reserved.</p>
             <p>Founded by Sofia Wolf</p>
         </div>
